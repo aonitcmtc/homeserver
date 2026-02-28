@@ -1,0 +1,237 @@
+<?php if (session()->has('access_token')): ?>
+
+    <!DOCTYPE html>
+    <html lang="th">
+    <head>
+        <meta charset="UTF-8">
+        <title><?= esc($title ?? 'Admin') ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="shortcut icon" type="image/png" href="../favicon.ico"> -->
+        <link rel="shortcut icon" type="image/png" href="<?=base_url();?><?= esc($favicon ?? 'favicon.ico') ?>">
+
+        <!-- Bootstrap 5 -->
+        <link href="<?=base_url();?>asset/bootstrap.min.css" rel="stylesheet">
+        <script src="<?=base_url();?>asset/jquery.slim.min.js"></script>
+        <script src="<?=base_url();?>asset/popper.min.js"></script>
+        <script src="<?=base_url();?>asset/bootstrap.bundle.min.js"></script>
+
+        <!-- CSS ICONS -->
+        <link href="<?=base_url();?>asset/bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
+        <link href="<?=base_url();?>asset/fontawesome4/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- JQuery -->
+        <script src="<?=base_url();?>asset/jquery-3.7.1.min.js"></script>
+        
+        <!-- Sweetalert2 -->
+        <script src="<?=base_url();?>asset/sweetalert2/sweetalert2.all.min.js"></script>
+        <link href="<?=base_url();?>asset/sweetalert2/sweetalert2.min.css" rel="stylesheet">
+
+        <!-- my custom css -->
+        <link href="<?=base_url();?>css/adminmain.css" rel="stylesheet">
+
+
+        <!-- cookieconsent -->
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css"> -->
+    </head>
+    <body>
+        <style>
+            .navbar-nav {
+                --bs-nav-link-padding-y: 0; /* remove padding y */
+            }
+
+            .table-outer-rounded {
+                border-radius: 18px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px #00000014;
+            }
+
+            @media (max-width: 900px) {
+                .d-navbar {
+                    min-height: 50px;
+                    line-height: 2;
+                }
+            }
+        </style>
+
+        <?php $session = session(); ?>
+
+        <!-- Top navbar -->
+        <div class="d-navbar">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    
+                    <!-- Brand / Logo -->
+                    <a class="" href="/admin/">
+                        <img src="<?=base_url();?>/img-default/weblogo.png" alt="Avatar Logo" style="width:30px;" class="rounded-pill"> 
+                    </a>
+                    
+                    <!-- Toggler for mobile -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#navbarContent" aria-controls="navbarContent" 
+                            aria-expanded="false" aria-label="Toggle navigation">
+                    <!-- <span class="navbar-toggler-icon"></span> -->
+                    <span class="py-2"><i class="bi bi-grid"></i></span>
+                    </button>
+
+                    <!-- Collapsible content -->
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <!-- Left side menu items -->
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">About</a>
+                            </li>
+                            
+                            <!-- Example Dropdown (kept from before) -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" 
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Services
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Web Development</a></li>
+                                    <li><a class="dropdown-item" href="#">Mobile Apps</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Consulting</a></li>
+                                    <li><a class="dropdown-item" href="#">SEO & Marketing</a></li>
+                                </ul>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact</a>
+                            </li>
+                        </ul>
+
+                        <!-- Right side: User Profile Dropdown (replaces search) -->
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">  <!-- ms-auto pushes to right -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" 
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    <!-- Optional: User avatar/icon -->
+                                    <?php $devprofiles = base_url().'/img-default/devprofile.png' ?>
+                                    <!-- <i class="bi bi-person-circle fs-4 me-2"></i> -->
+                                    <img src="<?= $session->member_img ?? $devprofiles; ?>" 
+                                        alt="Avatar Logo" style="width:30px;" class="rounded-pill"> 
+                                    &ensp;
+                                    <span class="mx-2"><?= $session->member_name ?></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">  <!-- dropdown-menu-end aligns menu to the right edge -->
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="/admin/logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- <nav class="navbar navbar-expand-lg bg-primary navbar-light bg-87A2FF">
+                <div class="container-fluid">
+                    <a class="" href="/admin/">
+                        <img src="<?=base_url();?>/img-default/weblogo.png" alt="Avatar Logo" style="width:30px;" class="rounded-pill"> 
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        </ul>
+                        <div class="d-flex">
+                            <a class="btn btn-sm btn-outline-secondary" href="/admin/logout">logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav> -->
+        </div>
+
+        <!-- Sidebar here (same as above) -->
+        <div class="main-content">
+            <main>
+                <?= $content ?? '' ?>
+            </main>
+        </div>
+
+        <div id="footer" class="footer">
+            <?php include 'footer.php' ?>
+        </div>
+
+        <!-- scripts -->
+
+        <!-- <script type="module" src="cookieconsent-config.js"></script> --> <!-- is Admin page not Active -->
+        <!-- <script type="module" src="./../asset/iscookie/cookieconsent-config.js"></script> -->
+        <!-- <script type="module" src="/asset/"></script> -->
+
+        <script>
+            // 15 minutes inactivity = auto logout
+            const TIMEOUT_MS = 15 * 60 * 1000;  // 900,000 ms
+
+            let idleTimer;
+            let warningTimer;
+
+            function alertTimeout() {
+                Swal.fire({
+                    title: "System Time Out.",
+                    html: "Logout as Time <b></b> milliseconds.",
+                    width: 600,
+                    padding: "3em",
+                    color: "#c81212",
+                    // background: "#fff url(/images/trees.png)",
+                    backdrop: `
+                        #c9252366
+                    `,
+                    // backdrop: `
+                    //     rgba(0,0,123,0.4)
+                    //     // url("/images/nyan-cat.gif")
+                    //     left top
+                    //     no-repeat
+                    // `,
+                    timer: 60000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const timer = Swal.getPopup().querySelector("b");
+                        timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                        window.location.reload();
+                    }
+                });
+            }
+
+            function resetActivityTimer() {
+                clearTimeout(idleTimer);
+                clearTimeout(warningTimer);
+
+                // Optional: warn user 1 minute before logout
+                warningTimer = setTimeout(() => {
+                    // alert("Warning: Due to no mouse/keyboard activity, you will be logged out in 1 minute.\nMove mouse or press any key to stay logged in.");
+                    alertTimeout();
+                }, TIMEOUT_MS - 60000);
+
+                // Logout exactly at 15 min
+                idleTimer = setTimeout(() => {
+                    alert("Logged out due to 15 minutes inactivity (no mouse movement or other activity).");
+                    window.location.href = "<?= site_url('admin/logout') ?>";
+                }, TIMEOUT_MS);
+            }
+
+            // Listen to real user activity events (mouse, keyboard, touch, scroll)
+            const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
+            events.forEach(event => {
+                document.addEventListener(event, resetActivityTimer, { passive: true });
+            });
+
+            // Start timer when page loads
+            resetActivityTimer();
+        </script>
+    </body>
+    </html>
+<?php endif; ?>
